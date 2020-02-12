@@ -13,5 +13,16 @@
 // Console.log(homeLibrary) to verify that all is working.
 
 class BookList {
-
+    constructor() {
+        this.booksread = 0;
+        this.booksUnread = 0;
+        this.books = [];
+        this.lastBook = null;
+        this.currentBook = null;
+        this.nextBook = null;
+    }
 }
+
+let homeLibrary = new BookList();
+
+console.log(homeLibrary);

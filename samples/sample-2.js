@@ -10,7 +10,7 @@ class FourSided {
 
 class Square extends FourSided{
     constructor(size) {
-        super("square");
+        super("square");//for Foursided constructor
         this.height = size;
         this.width = size;
     }

@@ -14,3 +14,64 @@
 
 // console.log(homeLibrary) when you're done adding, starting and finishing books.
 // Make sure that your changes are reflected in the homeLibrary.
+
+
+class Book {
+    constructor(title, genre, author, read, startReadDate, endReadDate) {
+        this.title = title;
+        this.genre = genre || '';
+        this.author = author || '';
+        this.read = read || '';
+        this.startReadDate = startReadDate || '';
+        this.endReadDate = endReadDate || '';
+    }
+}
+
+class BookList {
+    constructor() {
+        this.booksread = 0;
+        this.booksUnread = 0;
+        this.books = [];
+        this.lastBook = null;
+        this.currentBook = null;
+        this.nextBookIndex = 0;
+        this.nextBook = books[this.nextBookIndex] || '';
+    }
+    addBook = (bookData) => {
+        this.books.push(bookData || '');
+        this.booksToRead.push(bookData || '');
+        this.booksUnread ++;
+    }
+    startReading = (title) => {
+        this.currentBook = this.books.find(book => book.title === title );
+        this.currentBook.startReadDate = new Date();
+        this.currentBook.read = 'No';
+    }
+    finishReading = (title) => {
+        this.currentBook.endReadDate = new Date();
+        this.currentBook.read = 'Yes';
+        this.lastBook = title;
+        this.booksRead ++;
+        this.booksUnread --;
+        this.nextBookIndex ++; 
+        this.currentBook = null;
+        
+    }
+}
+
+//nextBook could be booksToRead[0], books added to booksToRead when added to library
+//when book finshed: shift() from booksToRead
+
+
+let homeLibrary = new BookList();
+
+homeLibrary.addBook(new Book('Borkland', 'Horror', 'Paws'));
+homeLibrary.addBook(new Book('Meow Bay', 'Autobiography', 'Paws'));
+homeLibrary.addBook(new Book('CawTown', 'Comedy', 'Crow'));
+
+homeLibrary.startReading('CawTown');
+homeLibrary.finishReading('CawTown');
+homeLibrary.startReading('Borkland');
+
+
+console.log(homeLibrary);

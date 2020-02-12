@@ -15,8 +15,8 @@ let b = createAcc();
 
 inc(b);
 
-console.log(a.sum);
-console.log(b.sum);
+console.log(a.sum); // 0
+console.log(b.sum); // 1
 ```
 
 ---
@@ -52,12 +52,14 @@ But what is a user interface library? _more on that soon_
 Class is yet another type.
 
 Wait. What other types do you know?
+// string number etc
 
 ---
 
 ## Defining a class
 
 ```js
+// convention is to capitalize first letter of classes
 class Car {
 
 }
@@ -87,12 +89,16 @@ _The `this` keyword refers to the new object._
 
 ```js
 class Car {
-    constructor(brand) {
-        this.brand = brand;
+    constructor(brandName, modelName) {
+        this.type = 'automobile';
+        // || just stops it returning undefined if argument not passed
+        this.brand = brandName || '';
+        this.model = modelName || '';
     }
 }
 
-let myCar = new Car("Toyota");
+let myCar = new Car("Toyota", 'corolla');
+// mycar === {type: 'automobile', brand : "Toyota", model:'corolla'}
 let yourCar = new Car("Honda");
 ```
 
@@ -134,12 +140,14 @@ Every instance of a class has a property that matches the method name and refers
 
 ```js
 class Car {
+    // must use arrow functions (allows access to parent objects "this")
     noise = () => console.log("Vrooom");
 }
 
 let mazda = new Car();
 
 mazda.noise();
+// Vrooom
 ```
 
 ---
@@ -151,15 +159,18 @@ class School {
     }
 
     noise = () => {
-        console.log("...The sound of students growing...")
+        console.log(`At ${this.name}, students are learning.`)
     }
 }
 let concordiaBootcamps = new School('Concordia Bootcamps');
 
 // What does the following output?
 concordiaBootcamps.noise();
+//At Concordia Bootcamps, students are learning.
+
 
 // What do I have to type to output the name?
+console.log(concordiaBootcamps.name);
 
 ```
 
@@ -168,18 +179,21 @@ concordiaBootcamps.noise();
 ```js
 class Dog {
     constructor(voice) {
-        this.voice = voice;
+        this.voice = voice || 'borkbork';
     }
     noise = () => {
-        console.log('woof');
+        console.log(this.voice);
     }
     coolOff = () => {
         console.log('pant');
     }
 }
 
-let mastiff = new Dog();
-let terrier = new Dog();
+let mastiff = new Dog('bork');
+let terrier = new Dog('yap');
+
+
+//mastiff === {voice:'bork', noise:f(), coolOff:f()}
 ```
 
 ---
@@ -206,19 +220,27 @@ class Dog {
 
 let mastiff = new Dog('WOOF!');
 let terrier = new Dog('yip!yip!');
+
+mastiff.noise() // === WOOF!
 ```
 
 ---
 
 ```js
 class Car {
-    constructor() {
-        this.mileage = 0;
+    constructor(mileage) {
+        this.status = mileage > 0 ? 'used' : 'new' ;
+        this.mileage = mileage || 0;
     }
-    drive = () => { this.mileage = this.mileage + 10 }
+    // || to stop it breaking if no value given (defaults to 10)
+    drive = (km) => { 
+        this.mileage = this.mileage + km || 10 ;
+        this.status = 'used';
+    }
 }
-let myCar = new Car();
-myCar.drive(); 
+let myCar = new Car(10000);
+myCar.drive(50); 
+// adds 50 to milage
 ```
 
 ---
@@ -230,9 +252,22 @@ myCar.drive();
 // 2. How could we represent varying hunger levels based on activity?
 // 3. How about when it eats?
 class Animal {
+    constructor(name) {
+        this.name = name;
+        this.hungerLvl = 0;
+    }
 
+    play = () => {
+        this.hungerLvl += 20;
+    }
+    eat = () => {
+        this.hungerLvl -= 30;
+    }
 }
 
+
+
+let hippo = new Animal('hippo');
 ```
 
 ---
@@ -254,9 +289,11 @@ class Human {
 }
 
 // Declare a class that extends Human
+//extends brings the methods; super() brings the constructor//
 class Male extends Human {
     constructor(name) {
-        super(); // call parent constructor to set the species
+        super(); // call parent constructor to set the species //
+        //(if not put, male will not inherit property 'species', but will still get 'dance()' (super is responsible for icluding the parent constructor))
         this.name = name;
     }
     greet = () => {
