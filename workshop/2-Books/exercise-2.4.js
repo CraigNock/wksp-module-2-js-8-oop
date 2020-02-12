@@ -29,17 +29,16 @@ class Book {
 
 class BookList {
     constructor() {
-        this.booksread = 0;
+        this.booksRead = 0;
         this.booksUnread = 0;
         this.books = [];
         this.lastBook = null;
         this.currentBook = null;
         this.nextBookIndex = 0;
-        this.nextBook = books[this.nextBookIndex] || '';
+        this.nextBook = this.books[this.nextBookIndex] || '';
     }
     addBook = (bookData) => {
         this.books.push(bookData || '');
-        this.booksToRead.push(bookData || '');
         this.booksUnread ++;
     }
     startReading = (title) => {
@@ -51,9 +50,10 @@ class BookList {
         this.currentBook.endReadDate = new Date();
         this.currentBook.read = 'Yes';
         this.lastBook = title;
-        this.booksRead ++;
-        this.booksUnread --;
+        this.booksRead = this.booksRead + 1;
+        this.booksUnread = this.booksUnread -1 ;
         this.nextBookIndex ++; 
+        this.nextBook = this.books[this.nextBookIndex] || '';
         this.currentBook = null;
         
     }
@@ -72,6 +72,7 @@ homeLibrary.addBook(new Book('CawTown', 'Comedy', 'Crow'));
 homeLibrary.startReading('CawTown');
 homeLibrary.finishReading('CawTown');
 homeLibrary.startReading('Borkland');
+
 
 
 console.log(homeLibrary);
